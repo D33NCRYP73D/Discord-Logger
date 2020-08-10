@@ -76,7 +76,8 @@ async def on_message(message):
     :param message:
     :return:
     """
-    msg = message.clean_content if not message.attachments else message.attachments[0].url
+    msg = message.clean_content if not message.attachments else message.attachments[
+        0].url
     save_data = {
         message.id: {
             "guild": {
@@ -100,10 +101,7 @@ async def on_message(message):
     has_image = False if "http" not in msg else True
     stdout.write("\rUser: %s said: %s\n\n" % (makeAuthor(message.author), msg))
     log = logger(save_data, message.id)
-    Thread(
-        target=log.save,
-        args=(has_image,)
-    ).start()
+    Thread(target=log.save, args=(has_image, )).start()
+
 
 bot.run(getToken(), bot=CONFIG["bot"])
-

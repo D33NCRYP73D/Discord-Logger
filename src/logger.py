@@ -68,7 +68,8 @@ class logger:
         new_message[self.id_key] = self.message[self.id_key]
 
         with open(path_to_save, "w", encoding="utf-8") as log_file:
-            log_file.write(ujson.dumps(new_message, indent=8, ensure_ascii=False))
+            log_file.write(
+                ujson.dumps(new_message, indent=8, ensure_ascii=False))
 
     def saveDM(self):
         """
@@ -78,10 +79,7 @@ class logger:
         :return:
         """
         file_location = "logs/DM/%s.json" % self.channel_id
-        self.saveToJSON(
-            file_location,
-            path.isfile(file_location)
-        )
+        self.saveToJSON(file_location, path.isfile(file_location))
 
     def saveGroup(self):
         """
@@ -91,10 +89,7 @@ class logger:
         :return:
         """
         file_location = "logs/Group DM/%s.json" % self.channel_id
-        self.saveToJSON(
-            file_location,
-            path.isfile(file_location)
-        )
+        self.saveToJSON(file_location, path.isfile(file_location))
 
     def saveServer(self):
         """
@@ -104,15 +99,10 @@ class logger:
         :return:
         """
         dir_location = "logs/Servers/%s" % self.guild_id
-        file_location = "%s/%s.json" % (
-            dir_location,
-            self.channel_id)
+        file_location = "%s/%s.json" % (dir_location, self.channel_id)
         if not path.isdir(dir_location):
             mkdir(dir_location)
-        self.saveToJSON(
-            file_location,
-            path.isfile(file_location)
-        )
+        self.saveToJSON(file_location, path.isfile(file_location))
 
     def saveFile(self):
         """
@@ -129,13 +119,15 @@ class logger:
             url = self.message[self.id_key]["message"]["content"]
             file = url.split("/")[-1]
             file_type = file.split(".")[1]
-            file_type = "Images" if file_type in IMAGE_EXTENSIONS else OTHER_EXTENSIONS.get(file_type, "Others")
+            file_type = "Images" if file_type in IMAGE_EXTENSIONS else OTHER_EXTENSIONS.get(
+                file_type, "Others")
             file_path = "logs/Files/%s/%s" % (file_type, file)
             data = get(url, stream=True)
             with open(file_path, "wb") as f:
                 for chunk in data:
                     f.write(chunk)
-            self.message[self.id_key]["message"]["path_to_file"] = str(file_path)
+            self.message[self.id_key]["message"]["path_to_file"] = str(
+                file_path)
         except:
             pass
 
